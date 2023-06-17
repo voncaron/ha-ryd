@@ -27,13 +27,10 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 def setup_platform(hass: core.HomeAssistant, config: dict, add_devices, discovery_info=None) -> bool:
     """Set up the RYD Custom Component."""
     # @TODO: Add setup code.
-    from pyryd import Ryd
+    from jvcryd import Ryd
     url = config.get(CONF_URL)
     email = config.get(CONF_EMAIL)
     password = config.get(CONF_PASSWORD)
-    _LOGGER.info("URL %s", url)
-    _LOGGER.info("EMAIL %s", email)
-    _LOGGER.info("PASSWORD %s", password)
     scan_interval = config.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
 
     ryd = Ryd(url,email,password)
