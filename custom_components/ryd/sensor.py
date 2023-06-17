@@ -27,7 +27,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 def setup_platform(hass: core.HomeAssistant, config: dict, add_devices, discovery_info=None) -> bool:
     """Set up the RYD Custom Component."""
     # @TODO: Add setup code.
-    from jvcryd import Ryd
+    from .pyryd import Ryd
     url = config.get(CONF_URL)
     email = config.get(CONF_EMAIL)
     password = config.get(CONF_PASSWORD)
