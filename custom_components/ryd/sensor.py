@@ -31,6 +31,9 @@ def setup_platform(hass: core.HomeAssistant, config: dict, add_devices, discover
     url = config.get(CONF_URL)
     email = config.get(CONF_EMAIL)
     password = config.get(CONF_PASSWORD)
+    print(url)
+    print(email)
+    print(password)
     scan_interval = config.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
 
     ryd = Ryd(url,email,password)
