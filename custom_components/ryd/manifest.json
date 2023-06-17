@@ -4,7 +4,7 @@
   "version": "0.1.5",
   "documentation": "https://github.com/voncaron/pyryd/blob/master/README.md",
   "requirements": [
-    "pyryd==0.1.5"
+    "git+https://github.com/voncaron/pyryd"
   ],
   "dependencies": [],
   "codeowners": ["@voncaron"]
