@@ -90,7 +90,6 @@ class Ryd(object):
         self._data = json.dumps({"email": user_email, "password": user_passwd})
 
     def fetch(self):
-        print(self._data)
         response = requests.post(
             "{}/auth/login/local".format(self._ryd_api_server),
             data=self._data,
