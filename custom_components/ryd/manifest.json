@@ -2,7 +2,7 @@
   "domain": "ryd",
   "name": "RYD",
   "version": "0.1.4",
-  "documentation": "https://github.com/Yannik25/pyryd/blob/master/README.md",
+  "documentation": "https://github.com/voncaron/pyryd/blob/master/README.md",
   "requirements": [
     "pyryd==0.1.4"
   ],
