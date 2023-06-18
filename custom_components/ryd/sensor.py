@@ -28,6 +28,7 @@ def setup_platform(hass: core.HomeAssistant, config: dict, add_devices, discover
     """Set up the RYD Custom Component."""
     # @TODO: Add setup code.
     from .pyryd import Ryd
+    from .pyryd1 import Ryd1
     url = config.get(CONF_URL)
     email = config.get(CONF_EMAIL)
     password = config.get(CONF_PASSWORD)
@@ -36,8 +37,12 @@ def setup_platform(hass: core.HomeAssistant, config: dict, add_devices, discover
     ryd = Ryd(url,email,password)
     ryd_adapter = RydAdapter(ryd, add_devices)
 
+    ryd1 = Ryd1(url,email,password)
+    ryd_adapter1 = RydAdapter1(ryd1, add_devices)
+
     def fetch(*_):
         ryd_adapter.update()
+        ryd_adapter1.update()
     # call fetch once at beginning of setup
     fetch()
     track_time_interval(hass, fetch, scan_interval)
@@ -51,6 +56,56 @@ class RydAdapter(Entity):
     def __init__(self, ryd, add_devices):
         # TODO make this the name of the car?
         self._name = "Ryd"
+
+        self.ryd = ryd
+        self._add_devices = add_devices
+        self.values = {}
+        self._sensors = set()
+        self._registered_sensors : Set[RydTemplateSensor] = set()
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return self._name
+
+    def update(self):
+        """Fetch new state data for the sensor.
+        This is the only method that should fetch new data for Home Assistant.
+        """
+        try:
+            self.ryd.fetch()
+        except ConnectionError:
+            _LOGGER.error(
+                "Failed to update: No Connection."
+            )
+            return
+
+        self.values = self.ryd._ref_data
+        # Add discovered value fields as sensors
+        # because some fields are only sent temporarily
+        new_sensors = []
+        for key in self.values:
+            if key not in self._sensors:
+                self._sensors.add(key)
+                _LOGGER.info("Discovered %s, adding as sensor", key)
+                new_sensors.append(RydTemplateSensor(self, key))
+        self._add_devices(new_sensors, True)
+
+        # Schedule an update for all included sensors
+        for sensor in self._registered_sensors:
+            sensor.async_schedule_update_ha_state(True)
+
+    async def register(self, sensor):
+        """Register child sensor for update subscriptions."""
+        self._registered_sensors.add(sensor)
+
+
+class RydAdapter1(Entity):
+    """Representation of a ryd sensor."""
+        
+    def __init__(self, ryd1, add_devices):
+        # TODO make this the name of the car?
+        self._name = "Ryd1"
 
         self.ryd = ryd
         self._add_devices = add_devices
