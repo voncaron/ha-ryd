@@ -107,7 +107,7 @@ class RydAdapter1(Entity):
         # TODO make this the name of the car?
         self._name = "Ryd1"
 
-        self.ryd = ryd
+        self.ryd1 = ryd1
         self._add_devices = add_devices
         self.values = {}
         self._sensors = set()
@@ -123,14 +123,14 @@ class RydAdapter1(Entity):
         This is the only method that should fetch new data for Home Assistant.
         """
         try:
-            self.ryd.fetch()
+            self.ryd1.fetch()
         except ConnectionError:
             _LOGGER.error(
                 "Failed to update: No Connection."
             )
             return
 
-        self.values = self.ryd._ref_data
+        self.values = self.ryd1._ref_data
         # Add discovered value fields as sensors
         # because some fields are only sent temporarily
         new_sensors = []
