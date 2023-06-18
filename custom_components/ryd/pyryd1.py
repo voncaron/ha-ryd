@@ -34,7 +34,7 @@ REFACTOR_DICT = {
     "license_Plate": (lambda x: str(x["licensePlate"]), None),
 }
 
-class Ryd(object):
+class Ryd1(object):
     def __init__(
         self,
         ryd_api_server: str,
@@ -99,7 +99,7 @@ class Ryd(object):
         json_object = response.json()
 
         ryd_auth_token = json_object["auth_token"]
-        rydid = json_object["things"][0]["id"]
+        rydid = json_object["things"][1]["id"]
 
         response = requests.get(
             "{}/things/{}/status?auth_token={}".format(
